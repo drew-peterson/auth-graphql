@@ -16,7 +16,6 @@ import schema from './schema/schema';
 // Create a new Express application
 const app = express();
 
-// Replace with your mongoLab URI
 const MONGO_URI =
   'mongodb://drew.peterson:peterson@ds157818.mlab.com:57818/auth-graphql';
 
@@ -49,6 +48,9 @@ app.use(
 // assign the current user to the 'req.user' object.  See also servces/auth.js
 app.use(passport.initialize());
 app.use(passport.session());
+
+// require in ALL EXPRESS ROUTES....
+require('./routes/test')(app);
 
 // Instruct Express to pass on any request made to the '/graphql' route
 // to the GraphQL instance.
