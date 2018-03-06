@@ -1,8 +1,25 @@
-const graphql = require('graphql');
-const { GraphQLSchema } = graphql;
+import { makeExecutableSchema } from 'graphql-tools';
+import resolvers from './resolvers';
 
-const RootQueryType = require('./types/root_query_type');
+// mutation: put patch delete post schema data
+// query: get schema data
+// type: schema data collections
 
-module.exports = new GraphQLSchema({
-  query: RootQueryType
-});
+// resolvers handle the querys to mongo for each mutation / query
+
+const typeDefs = `
+  type Query {
+    user(email: String!): User
+  }
+
+  type Mutation {
+    signup(email: String!, password: String!): User
+
+  }
+
+  type User {
+    email: String!
+  }
+`;
+
+export default makeExecutableSchema({ typeDefs, resolvers });

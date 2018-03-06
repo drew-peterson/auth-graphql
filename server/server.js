@@ -54,7 +54,13 @@ require('./routes/test')(app);
 
 // Instruct Express to pass on any request made to the '/graphql' route
 // to the GraphQL instance.
-app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
+app.use(
+  '/graphql',
+  bodyParser.json(),
+  // express req object needs to be manually add into graphQl with apollo-express
+  // then in resolvers / mutations can access req...
+  graphqlExpress(req => ({ schema, context: req }))
+);
 app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 
 if (process.env.NODE_ENV === 'production') {
