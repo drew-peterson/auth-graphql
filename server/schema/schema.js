@@ -9,11 +9,13 @@ import resolvers from './resolvers';
 
 const typeDefs = `
   type Query {
-    user(email: String!): User
+    user: User
   }
 
   type Mutation {
     signup(email: String!, password: String!): User
+    login(email: String!, password: String!): User
+    logout: User
 
   }
 

@@ -93,7 +93,7 @@ function login({ email, password, req }) {
       }
 
       req.login(user, () => resolve(user));
-    })({ body: { email, password } });
+    })({ body: { email, password } }); // syntax important....
   });
 }
 
