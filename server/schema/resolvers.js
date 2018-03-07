@@ -1,16 +1,22 @@
-import { signup, login } from '../services/auth';
+const AuthService = require('../services/auth');
 
 // use helper functions as much as possible
 
 const resolvers = {
   Query: {
-    user: (obj, args, { user }) => user // auth check if user is logged in
+    // user: (obj, args, { user }) => user // auth check if user is logged in
+    user: (obj, args, req) => {
+      console.log('user...', req.user);
+      return req.user;
+    } // auth check if user is logged in
   },
   Mutation: {
     signup: async (obj, { email, password }, req) =>
-      signup({ email, password, req }), // req is the express req
-    login: async (obj, { email, password }, req) =>
-      login({ email, password, req }),
+      AuthService.signup({ email, password, req }), // req is the express req
+    login: async (obj, { email, password }, req) => {
+      console.log('login', req.user);
+      AuthService.login({ email, password, req });
+    },
     logout: async (obj, args, req) => {
       // could create service but this is small
       const { user } = req;
@@ -20,4 +26,4 @@ const resolvers = {
   }
 };
 
-export default resolvers;
+module.exports = resolvers;

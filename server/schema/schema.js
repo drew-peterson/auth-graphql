@@ -1,5 +1,5 @@
-import { makeExecutableSchema } from 'graphql-tools';
-import resolvers from './resolvers';
+const makeExecutableSchema = require('graphql-tools').makeExecutableSchema;
+const resolvers = require('./resolvers');
 
 // mutation: put patch delete post schema data
 // query: get schema data
@@ -20,8 +20,9 @@ const typeDefs = `
   }
 
   type User {
+    _id: ID!
     email: String!
   }
 `;
 
-export default makeExecutableSchema({ typeDefs, resolvers });
+module.exports = makeExecutableSchema({ typeDefs, resolvers });

@@ -1,42 +1,37 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import './App.css';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-const Home = () => (
-  <div>
-    <h2>Home</h2>
-  </div>
-);
+import { ApolloClient } from 'apollo-client';
+import { HttpLink } from 'apollo-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloProvider } from 'react-apollo';
 
-const About = () => (
-  <div>
-    <h2>About</h2>
-  </div>
-);
+import Nav from './components/Nav';
+import Landing from './components/Landing';
+import AuthForm from './components/AuthForm';
 
-const Nav = () => {
-  return (
-    <ul>
-      <li>
-        <Link to="/about">About</Link>
-      </li>
-      <li>
-        <Link to="/">Home</Link>
-      </li>
-    </ul>
-  );
-};
+const client = new ApolloClient({
+  link: new HttpLink({
+    uri: '/graphql', // proxy will pick this up and pass cookies
+    credentials: 'same-origin' // tell apollo to use cookies...
+  }),
+  cache: new InMemoryCache({
+    dataIdFromObject: o => o._id
+  })
+});
 
 class App extends Component {
   render() {
     return (
-      <Router>
-        <div>
-          <Nav />
-          <Route exact path="/" component={Home} />
-          <Route path="/about" component={About} />
-        </div>
-      </Router>
+      <ApolloProvider client={client}>
+        <Router>
+          <div>
+            <Nav />
+            <Route exact path="/" component={Landing} />
+            <Route exact path="/login" component={AuthForm} />
+          </div>
+        </Router>
+      </ApolloProvider>
     );
   }
 }

@@ -1,17 +1,14 @@
-// look at package.json devDependencies and babel + start to get imports working in node...
-
-import express from 'express';
-import bodyParser from 'body-parser';
-
-import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
-import mongoose from 'mongoose';
-import passport from 'passport';
-import session from 'express-session';
+const express = require('express');
+const bodyParser = require('body-parser');
+const graphqlExpress = require('apollo-server-express').graphqlExpress;
+const graphiqlExpress = require('apollo-server-express').graphiqlExpress;
+const mongoose = require('mongoose');
+const passport = require('passport');
+const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
-
-import models from './models';
-import passportConfig from './services/auth';
-import schema from './schema/schema';
+const models = require('./models');
+const passportConfig = require('./services/auth');
+const schema = require('./schema/schema');
 
 // Create a new Express application
 const app = express();
