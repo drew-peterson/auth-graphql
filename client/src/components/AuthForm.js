@@ -1,48 +1,39 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import { Form } from 'formik';
 
-class AuthForm extends Component {
-  state = {
-    email: '',
-    password: ''
-  };
+import { Input } from './common';
 
-  handleSubmit(event) {
-    event.preventDefault();
-    const { onSubmit } = this.props;
-    const { email, password } = this.state;
-    onSubmit({ email, password });
-  }
+const AuthForm = props => {
+  const { title, btnText, isSubmitting } = props;
+  return (
+    <FormWrap className="z-depth-2">
+      <Title>{title}</Title>
 
-  render() {
-    const { email, password } = this.state;
-    const { title, btnText } = this.props;
-    return (
-      <FormWrap className="z-depth-2">
-        <Title>{title}</Title>
-        <form onSubmit={this.handleSubmit.bind(this)}>
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={e => this.setState({ email: e.target.value })}
-          />
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={e => this.setState({ password: e.target.value })}
-          />
-          <BtnWrap>
-            <button type="submit" className="btn">
-              {btnText}
-            </button>
-          </BtnWrap>
-        </form>
-      </FormWrap>
-    );
-  }
-}
+      <Form>
+        <Input
+          name="email"
+          type="email"
+          label="Email"
+          placeholder="drew@test.com"
+          {...props}
+        />
+        <Input
+          name="password"
+          type="password"
+          label="Password"
+          placeholder="password here..."
+          {...props}
+        />
+        <BtnWrap>
+          <button className="btn" type="submit" disabled={isSubmitting}>
+            {btnText}
+          </button>
+        </BtnWrap>
+      </Form>
+    </FormWrap>
+  );
+};
 
 const Title = styled.h2`
   text-align: center;

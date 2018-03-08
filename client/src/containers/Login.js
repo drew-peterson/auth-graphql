@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
+import { Formik } from 'formik';
+import Yup from 'yup';
 import Auth from '../graphql/mutations/Auth';
 import CurrentUser from '../graphql/queries/CurrentUser';
 import AuthForm from '../components/AuthForm';
 
 class Login extends Component {
-  state = {
-    email: '',
-    password: ''
-  };
+  async onSubmit({ email, password }, { resetForm, setSubmitting }) {
+    // resetForm(); // clear everything inform
+    // setSubmitting(false) // enable form to submit again...
 
-  async onSubmit({ email, password }) {
     const { login, history } = this.props;
 
     try {
@@ -28,12 +28,24 @@ class Login extends Component {
     }
   }
 
+  validate() {
+    return Yup.object().shape({
+      email: Yup.string()
+        .email('Invalid Email')
+        .required('Email is required'),
+      password: Yup.string()
+        // .min(10, 'Password much be 10 characters')
+        .required('Password is required')
+    });
+  }
+
   render() {
     return (
-      <AuthForm
+      <Formik
+        initialValues={{ email: '', password: '' }}
         onSubmit={this.onSubmit.bind(this)}
-        title="Login"
-        btnText="Login"
+        validationSchema={this.validate} // special for Yup schema...
+        render={props => <AuthForm {...props} btnText="Login" title="Login" />}
       />
     );
   }

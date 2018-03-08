@@ -37,7 +37,7 @@ class Nav extends Component {
       ];
     }
     return [
-      <a key="1" href="javascript:void(0)" onClick={this.logout.bind(this)}>
+      <a key="1" onClick={this.logout.bind(this)}>
         logout
       </a>
     ];
