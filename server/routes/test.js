@@ -1,6 +1,8 @@
+const log = require('node-pretty-log');
 module.exports = app => {
   app.get('/api/test', (req, res) => {
-    console.log('test........', req.user);
+    log('info', req.user);
+
     res.send({ msg: 'test A' });
   });
 };

@@ -4,9 +4,7 @@ const graphqlExpress = require('apollo-server-express').graphqlExpress;
 const graphiqlExpress = require('apollo-server-express').graphiqlExpress;
 const mongoose = require('mongoose');
 const passport = require('passport');
-// const session = require('express-session');
-// const MongoStore = require('connect-mongo')(session);
-const cookieSession = require('cookie-session');
+const cookieSession = require('cookie-session'); //better
 const models = require('./models');
 const passportConfig = require('./services/auth');
 const schema = require('./schema/schema');
@@ -23,23 +21,6 @@ mongoose.connect(MONGO_URI);
 mongoose.connection
   .once('open', () => console.log('Connected to MongoLab instance.'))
   .on('error', error => console.log('Error connecting to MongoLab:', error));
-
-// Configures express to use sessions.  This places an encrypted identifier
-// on the users cookie.  When a user makes a request, this middleware examines
-// the cookie and modifies the request object to indicate which user made the request
-// The cookie itself only contains the id of a session; more data about the session
-// is stored inside of MongoDB.
-// app.use(
-//   session({
-//     resave: true,
-//     saveUninitialized: true,
-//     secret: 'asldjjksdfkljsdlkfjsdf',
-//     store: new MongoStore({
-//       url: MONGO_URI,
-//       autoReconnect: true
-//     })
-//   })
-// );
 
 // use cookies inside app
 app.use(
