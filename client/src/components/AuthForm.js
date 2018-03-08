@@ -1,34 +1,65 @@
 import React, { Component } from 'react';
-import { graphql } from 'react-apollo';
-import Auth from '../graphql/mutations/Auth';
-import CurrentUser from '../graphql/queries/CurrentUser';
+import styled from 'styled-components';
 
 class AuthForm extends Component {
-  async login(values) {
-    const { login } = this.props;
+  state = {
+    email: '',
+    password: ''
+  };
 
-    try {
-      await login({
-        variables: { email: 'test@test.com', password: 'test' },
-        update: (proxy, { data: { login } }) => {
-          const data = proxy.readQuery({ query: CurrentUser });
-          data.user = login;
-          proxy.writeQuery({ query: CurrentUser, data });
-        }
-      });
-    } catch (err) {
-      console.log('err', err);
-    }
+  handleSubmit(event) {
+    event.preventDefault();
+    const { onSubmit } = this.props;
+    const { email, password } = this.state;
+    onSubmit({ email, password });
   }
 
   render() {
+    const { email, password } = this.state;
+    const { title, btnText } = this.props;
     return (
-      <div>
-        <h2>auth form</h2>
-        <button onClick={this.login.bind(this)}>login</button>
-      </div>
+      <FormWrap className="z-depth-2">
+        <Title>{title}</Title>
+        <form onSubmit={this.handleSubmit.bind(this)}>
+          <label>Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={e => this.setState({ email: e.target.value })}
+          />
+          <label>Password</label>
+          <input
+            type="password"
+            value={password}
+            onChange={e => this.setState({ password: e.target.value })}
+          />
+          <BtnWrap>
+            <button type="submit" className="btn">
+              {btnText}
+            </button>
+          </BtnWrap>
+        </form>
+      </FormWrap>
     );
   }
 }
 
-export default graphql(Auth, { name: 'login' })(AuthForm);
+const Title = styled.h2`
+  text-align: center;
+  margin: 0;
+`;
+
+const FormWrap = styled.div`
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 10px;
+  background-color: #fafafa;
+`;
+
+const BtnWrap = styled.div`
+  text-align: center;
+`;
+
+export default AuthForm;

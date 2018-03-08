@@ -8,7 +8,7 @@ import { ApolloProvider } from 'react-apollo';
 
 import Nav from './components/Nav';
 import Landing from './components/Landing';
-import AuthForm from './components/AuthForm';
+import Login from './containers/Login';
 
 const client = new ApolloClient({
   link: new HttpLink({
@@ -28,7 +28,7 @@ class App extends Component {
           <div>
             <Nav />
             <Route exact path="/" component={Landing} />
-            <Route exact path="/login" component={AuthForm} />
+            <Route exact path="/login" component={Login} />
           </div>
         </Router>
       </ApolloProvider>

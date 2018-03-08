@@ -13,7 +13,6 @@ const resolvers = {
   Mutation: {
     signup: async (obj, { email, password }, req) => {
       const res = await AuthService.signup({ email, password, req }); // req is the express req
-      console.log('res', res);
       return res;
     },
     login: async (obj, { email, password }, req) => {
