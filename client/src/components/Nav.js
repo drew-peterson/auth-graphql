@@ -1,10 +1,23 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import styled from 'styled-components';
 import CurrentUser from '../graphql/queries/CurrentUser';
+import Logout from '../graphql/mutations/Logout';
 
 class Nav extends Component {
+  logout() {
+    const { logout } = this.props;
+    logout({
+      variables: {},
+      update: (proxy, { data: { logout } }) => {
+        const data = proxy.readQuery({ query: CurrentUser });
+        data.user = null;
+        proxy.writeQuery({ query: CurrentUser, data });
+      }
+    });
+  }
+
   authCheck() {
     const { user, loading } = this.props.data;
     console.log('user', user);
@@ -24,16 +37,16 @@ class Nav extends Component {
       ];
     }
     return [
-      <Link key="1" to="/logout">
-        Logout
-      </Link>
+      <a key="1" href="javascript:void(0)" onClick={this.logout.bind(this)}>
+        logout
+      </a>
     ];
   }
 
   render() {
     return (
       <Header>
-        <p>logo</p>
+        <Link to="/">Home</Link>
         <NavWrap>{this.authCheck()}</NavWrap>
       </Header>
     );
@@ -55,5 +68,8 @@ const NavWrap = styled.div`
   }
 `;
 
-export default graphql(CurrentUser)(Nav);
+export default compose(
+  graphql(CurrentUser),
+  graphql(Logout, { name: 'logout' })
+)(Nav);
 // export default Nav;

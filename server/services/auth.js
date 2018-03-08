@@ -92,7 +92,12 @@ function login({ email, password, req }) {
         reject('Invalid credentials.');
       }
 
-      req.login(user, () => resolve(user));
+      req.logIn(user, err => {
+        if (err) {
+          reject(err);
+        }
+        resolve(user);
+      });
     })({ body: { email, password } }); // syntax important....
   });
 }
