@@ -5,6 +5,7 @@ export default gql`
     logout {
       _id
       email
+      __typename
     }
   }
 `;

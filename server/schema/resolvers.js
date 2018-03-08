@@ -17,7 +17,8 @@ const resolvers = {
       return res;
     },
     login: async (obj, { email, password }, req) => {
-      console.log('login', req.user);
+      console.log('email', email);
+      console.log('password', password);
       const res = await AuthService.login({ email, password, req });
       console.log('res', res);
       return res;
