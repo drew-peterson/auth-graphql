@@ -11,8 +11,11 @@
     "node": "8.1.1",
     "npm": "5.6.0"
   },
+  "nodemonConfig": {
+    "ignore": ["client/*"]
+  },
   "scripts": {
-    "start": "node index.js",
+    "start": "node ./index.js",
     "server": "nodemon ./index.js",
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
@@ -40,6 +43,7 @@
     "lodash": "^4.17.5",
     "mongo-connect": "0.0.6",
     "mongoose": "^5.0.9",
+    "nodemon": "^1.17.1",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0"
   }
