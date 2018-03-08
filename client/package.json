@@ -2,7 +2,7 @@
   "name": "auth-graphql",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:4000",
+  "proxy": "http://localhost:5000",
   "dependencies": {
     "ajv": "^6.0.0",
     "apollo-cache-inmemory": "^1.1.10",
