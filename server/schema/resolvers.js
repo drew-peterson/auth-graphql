@@ -11,13 +11,18 @@ const resolvers = {
     } // auth check if user is logged in
   },
   Mutation: {
-    signup: async (obj, { email, password }, req) =>
-      AuthService.signup({ email, password, req }), // req is the express req
+    signup: async (obj, { email, password }, req) => {
+      const res = await AuthService.signup({ email, password, req }); // req is the express req
+      console.log('res', res);
+      return res;
+    },
     login: async (obj, { email, password }, req) => {
       console.log('login', req.user);
-      AuthService.login({ email, password, req });
+      const res = await AuthService.login({ email, password, req });
+      console.log('res', res);
+      return res;
     },
-    logout: async (obj, args, req) => {
+    logout: (obj, args, req) => {
       // could create service but this is small
       const { user } = req;
       req.logout();

@@ -4,8 +4,9 @@ const graphqlExpress = require('apollo-server-express').graphqlExpress;
 const graphiqlExpress = require('apollo-server-express').graphiqlExpress;
 const mongoose = require('mongoose');
 const passport = require('passport');
-const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
+// const session = require('express-session');
+// const MongoStore = require('connect-mongo')(session);
+const cookieSession = require('cookie-session');
 const models = require('./models');
 const passportConfig = require('./services/auth');
 const schema = require('./schema/schema');
@@ -28,15 +29,23 @@ mongoose.connection
 // the cookie and modifies the request object to indicate which user made the request
 // The cookie itself only contains the id of a session; more data about the session
 // is stored inside of MongoDB.
+// app.use(
+//   session({
+//     resave: true,
+//     saveUninitialized: true,
+//     secret: 'asldjjksdfkljsdlkfjsdf',
+//     store: new MongoStore({
+//       url: MONGO_URI,
+//       autoReconnect: true
+//     })
+//   })
+// );
+
+// use cookies inside app
 app.use(
-  session({
-    resave: true,
-    saveUninitialized: true,
-    secret: 'asldjjksdfkljsdlkfjsdf',
-    store: new MongoStore({
-      url: MONGO_URI,
-      autoReconnect: true
-    })
+  cookieSession({
+    maxAge: 30 * 24 * 60 * 60 * 1000, // cookie lasts 30days in milliseconds,
+    keys: ['as;0dfalsdfjkalsdf']
   })
 );
 
