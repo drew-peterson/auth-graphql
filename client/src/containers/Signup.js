@@ -2,23 +2,26 @@ import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import { Formik } from 'formik';
 import Yup from 'yup';
-import LoginMutation from '../graphql/mutations/Login';
+import SignupMutation from '../graphql/mutations/Signup';
 import CurrentUser from '../graphql/queries/CurrentUser';
 import AuthForm from '../components/AuthForm';
 
-class Login extends Component {
+class Signup extends Component {
   async onSubmit(
     { email, password },
     { resetForm, setSubmitting, setFieldError }
   ) {
-    const { login, history } = this.props;
+    // resetForm(); // clear everything inform
+
+    const { signup, history } = this.props;
 
     try {
-      await login({
+      await signup({
         variables: { email, password },
-        update: (proxy, { data: { login } }) => {
+        update: (proxy, { data: { signup } }) => {
+          console.log('signup', signup);
           const data = proxy.readQuery({ query: CurrentUser });
-          data.user = login;
+          data.user = signup;
           proxy.writeQuery({ query: CurrentUser, data });
           history.push('/');
         }
@@ -46,10 +49,12 @@ class Login extends Component {
         initialValues={{ email: '', password: '' }}
         onSubmit={this.onSubmit.bind(this)}
         validationSchema={this.validate} // special for Yup schema...
-        render={props => <AuthForm {...props} btnText="Login" title="Login" />}
+        render={props => (
+          <AuthForm {...props} btnText="Signup" title="Signup" />
+        )}
       />
     );
   }
 }
 
-export default graphql(LoginMutation, { name: 'login' })(Login);
+export default graphql(SignupMutation, { name: 'signup' })(Signup);

@@ -20,8 +20,6 @@ class Nav extends Component {
 
   authCheck() {
     const { user, loading } = this.props.data;
-    console.log('user', user);
-
     if (loading) {
       return <div />;
     }

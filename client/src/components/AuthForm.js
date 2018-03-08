@@ -5,7 +5,7 @@ import { Form } from 'formik';
 import { Input } from './common';
 
 const AuthForm = props => {
-  const { title, btnText, isSubmitting } = props;
+  const { title, btnText, isSubmitting, errors } = props;
   return (
     <FormWrap className="z-depth-2">
       <Title>{title}</Title>
@@ -26,6 +26,8 @@ const AuthForm = props => {
           {...props}
         />
         <BtnWrap>
+          {errors.form && <div className="input-feedback">{errors.form}</div>}
+
           <button className="btn" type="submit" disabled={isSubmitting}>
             {btnText}
           </button>

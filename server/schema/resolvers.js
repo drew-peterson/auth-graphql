@@ -6,7 +6,6 @@ const resolvers = {
   Query: {
     // user: (obj, args, { user }) => user // auth check if user is logged in
     user: (obj, args, req) => {
-      console.log('user...', req.user);
       return req.user;
     } // auth check if user is logged in
   },
@@ -16,10 +15,7 @@ const resolvers = {
       return res;
     },
     login: async (obj, { email, password }, req) => {
-      console.log('email', email);
-      console.log('password', password);
       const res = await AuthService.login({ email, password, req });
-      console.log('res', res);
       return res;
     },
     logout: (obj, args, req) => {

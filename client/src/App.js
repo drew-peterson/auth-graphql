@@ -9,6 +9,7 @@ import { ApolloProvider } from 'react-apollo';
 import Nav from './components/Nav';
 import Landing from './components/Landing';
 import Login from './containers/Login';
+import Signup from './containers/Signup';
 
 const client = new ApolloClient({
   link: new HttpLink({
@@ -29,6 +30,7 @@ class App extends Component {
             <Nav />
             <Route exact path="/" component={Landing} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/signup" component={Signup} />
           </div>
         </Router>
       </ApolloProvider>
