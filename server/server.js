@@ -8,6 +8,7 @@ const cookieSession = require('cookie-session'); //better
 const models = require('./models');
 const passportConfig = require('./services/auth');
 const schema = require('./schema/schema');
+const log = require('node-pretty-log');
 
 // Create a new Express application
 const app = express();
@@ -19,8 +20,8 @@ const MONGO_URI =
 // on success or failure
 mongoose.connect(MONGO_URI);
 mongoose.connection
-  .once('open', () => console.log('Connected to MongoLab instance.'))
-  .on('error', error => console.log('Error connecting to MongoLab:', error));
+  .once('open', () => log('info', 'Connected to MongoLab instance.'))
+  .on('error', error => log('error', 'Error connecting to MongoLab:', error));
 
 // use cookies inside app
 app.use(

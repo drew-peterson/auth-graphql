@@ -28,7 +28,7 @@ class Signup extends Component {
       });
     } catch ({ graphQLErrors }) {
       setSubmitting(false); // enable form to submit again...
-      setFieldError('form', graphQLErrors[0].message);
+      setFieldError('form', graphQLErrors.map(e => e.message).join(', '));
     }
   }
 

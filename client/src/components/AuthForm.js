@@ -15,14 +15,14 @@ const AuthForm = props => {
           name="email"
           type="email"
           label="Email"
-          placeholder="drew@test.com"
+          placeholder="email@test.com"
           {...props}
         />
         <Input
           name="password"
           type="password"
           label="Password"
-          placeholder="password here..."
+          placeholder="password"
           {...props}
         />
         <BtnWrap>
