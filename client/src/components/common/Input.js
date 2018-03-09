@@ -22,11 +22,11 @@ const Input = ({
         onChange={handleChange}
         onBlur={handleBlur}
         className={
-          errors[name] && touched[name] ? 'text-input error' : 'text-input'
+          errors[name] && touched[name] ? 'input-field error' : 'input-field'
         }
       />
       {errors[name] &&
-        touched[name] && <div className="input-feedback">{errors[name]}</div>}
+        touched[name] && <div className="text-input error">{errors[name]}</div>}
     </div>
   );
 };

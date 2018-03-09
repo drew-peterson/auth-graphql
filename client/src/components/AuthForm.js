@@ -28,7 +28,7 @@ const AuthForm = props => {
         <BtnWrap>
           {errors.form && <div className="input-feedback">{errors.form}</div>}
 
-          <button className="btn" type="submit" disabled={isSubmitting}>
+          <button className="btn green" type="submit" disabled={isSubmitting}>
             {btnText}
           </button>
         </BtnWrap>
@@ -37,7 +37,7 @@ const AuthForm = props => {
   );
 };
 
-const Title = styled.h2`
+const Title = styled.h3`
   text-align: center;
   margin: 0;
 `;
@@ -53,6 +53,7 @@ const FormWrap = styled.div`
 
 const BtnWrap = styled.div`
   text-align: center;
+  margin-top: 15px;
 `;
 
 export default AuthForm;

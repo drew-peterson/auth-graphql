@@ -1,5 +1,19 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  /* font-family: sans-serif; */
+  font-family: Roboto, sans-serif;
+}
+
+.input-field {
+  margin-bottom: 15px !important;
+}
+
+.text-input.error {
+  color: red;
+}
+
+input-field.error {
+  color: red;
+  border: 1px solid red;
 }
