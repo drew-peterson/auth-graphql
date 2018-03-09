@@ -25,9 +25,8 @@ const AuthForm = props => {
           placeholder="password"
           {...props}
         />
+        {errors.form && <div className="text-input error">{errors.form}</div>}
         <BtnWrap>
-          {errors.form && <div className="input-feedback">{errors.form}</div>}
-
           <button className="btn green" type="submit" disabled={isSubmitting}>
             {btnText}
           </button>
@@ -48,7 +47,7 @@ const FormWrap = styled.div`
   padding: 20px;
   margin-top: 20px;
   border-radius: 10px;
-  background-color: #fafafa;
+  background-color: Snow;
 `;
 
 const BtnWrap = styled.div`

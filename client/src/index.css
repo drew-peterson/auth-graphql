@@ -10,6 +10,7 @@ body {
 }
 
 .text-input.error {
+  text-align: center;
   color: red;
 }
 
