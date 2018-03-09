@@ -50,7 +50,13 @@ app.use(
   bodyParser.json(),
   graphqlExpress(req => ({ schema, context: req }))
 );
-app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
+app.use(
+  '/graphiql',
+  graphiqlExpress({
+    endpointURL: '/graphql',
+    subscriptionsEndpoint: `ws://localhost:5000/subscriptions`
+  })
+);
 
 if (process.env.NODE_ENV === 'production') {
   // Express will serve up production assesset (main.js, main.css) files

@@ -1,9 +1,9 @@
 const AuthService = require('../services/auth');
 const PubSub = require('graphql-subscriptions').PubSub;
+const withFilter = require('graphql-subscriptions').withFilter;
 const pubsub = new PubSub();
-// module.exports = new PubSub();
 
-const NAME_CHANGED = 'something_changed';
+const NAME_CHANGED = 'onNameChange';
 // use helper functions as much as possible
 const resolvers = {
   Query: {
@@ -27,16 +27,17 @@ const resolvers = {
       req.logout();
       return user;
     },
-    updateName: async (obj, { _id, name }, req) => {
-      console.log('update name', _id, name);
+    updateName: async (obj, { name }, req) => {
+      console.log('update name', name);
+      const { _id, email } = req.user;
 
       // update name here....
 
       pubsub.publish(NAME_CHANGED, {
-        nameChanged: {
-          name,
+        onNameChange: {
           _id,
-          email: 'drew@test.com'
+          name,
+          email
         }
       });
 
@@ -44,8 +45,16 @@ const resolvers = {
     }
   },
   Subscription: {
-    nameChanged: {
+    onNameChange: {
       subscribe: () => pubsub.asyncIterator(NAME_CHANGED)
+      // subscribe: withFilter(
+      //   () => pubsub.asyncIterator(NAME_CHANGED),
+      //   (payload, variables) => {
+      //     console.log('payload', payload);
+      //     console.log('variables', variables);
+      //     return true;
+      //   }
+      // )
     }
   }
 };

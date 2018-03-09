@@ -15,7 +15,7 @@ const typeDefs = `
   type Mutation {
     signup(email: String!, password: String!): User
     login(email: String!, password: String!): User
-    updateName(_id: ID!, name: String!): User
+    updateName(name: String!): User
     logout: User
 
   }
@@ -27,7 +27,7 @@ const typeDefs = `
   }
 
   type Subscription {
-    nameChanged: User
+    onNameChange: User
   }
 `;
 

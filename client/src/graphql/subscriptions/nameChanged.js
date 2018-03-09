@@ -1,10 +1,9 @@
 import gql from 'graphql-tag';
 
 export default gql`
-  nameChanged {
+  subscription nameChanged {
     _id
-    __typename
-    email
     name
+    email
   }
 `;
