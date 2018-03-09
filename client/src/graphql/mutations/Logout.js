@@ -4,8 +4,9 @@ export default gql`
   mutation {
     logout {
       _id
-      email
       __typename
+      email
+      name
     }
   }
 `;

@@ -6,6 +6,7 @@ export default gql`
       __typename
       _id
       email
+      name
     }
   }
 `;
