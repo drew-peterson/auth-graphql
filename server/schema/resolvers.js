@@ -1,6 +1,7 @@
 const AuthService = require('../services/auth');
 const PubSub = require('graphql-subscriptions').PubSub;
 const withFilter = require('graphql-subscriptions').withFilter;
+const log = require('node-pretty-log');
 const pubsub = new PubSub();
 
 const NAME_CHANGED = 'onNameChange';
@@ -28,10 +29,10 @@ const resolvers = {
       return user;
     },
     updateName: async (obj, { name }, req) => {
-      console.log('update name', name);
+      log('success', 'NEW NAME', name);
       const { _id, email } = req.user;
 
-      // update name here....
+      // update name in DB here....
 
       pubsub.publish(NAME_CHANGED, {
         onNameChange: {
@@ -47,6 +48,7 @@ const resolvers = {
   Subscription: {
     onNameChange: {
       subscribe: () => pubsub.asyncIterator(NAME_CHANGED)
+      // how to subscribe to specific things in collection
       // subscribe: withFilter(
       //   () => pubsub.asyncIterator(NAME_CHANGED),
       //   (payload, variables) => {
