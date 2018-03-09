@@ -20,6 +20,10 @@ class Nav extends Component {
 
   authCheck() {
     const { user, loading } = this.props.data;
+<<<<<<< current
+=======
+
+>>>>>>> before discard
     if (loading) {
       return <div />;
     }

@@ -11,7 +11,7 @@ import Landing from './components/Landing';
 import Dashboard from './components/Dashboard';
 import Login from './containers/Login';
 import Signup from './containers/Signup';
-import RequireLogin from './containers/RequireLogin';
+import requireLogin from './containers/requireLogin'; // HOC are lowercase because they are functions...
 
 const client = new ApolloClient({
   link: new HttpLink({
@@ -36,7 +36,7 @@ class App extends Component {
             <Route
               exact
               path="/dashboard"
-              component={RequireLogin(Dashboard)}
+              component={requireLogin(Dashboard)}
             />
           </div>
         </Router>

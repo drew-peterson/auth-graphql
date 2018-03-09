@@ -1,24 +1,17 @@
-// import React, { Component } from 'react';
 import React, { Component } from 'react';
-import CurrentUser from '../graphql/queries/CurrentUser';
 import { graphql } from 'react-apollo';
+import CurrentUser from '../graphql/queries/CurrentUser';
 
 export default ComposedComponent => {
   class RequireLogin extends Component {
-    componentWillUpdate({ data, history }) {
-      const { user } = data;
-
+    componentWillUpdate({ data: { user }, history }) {
       if (!user) {
-        history.push('/');
+        history.push('/login');
       }
     }
 
     render() {
-      const { data: { user } } = this.props;
-      if (!user) {
-        return <div />;
-      }
-      return user && <ComposedComponent {...this.props} />;
+      return <ComposedComponent {...this.props} />;
     }
   }
 
