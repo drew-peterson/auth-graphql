@@ -20,7 +20,7 @@ class Login extends Component {
           const data = proxy.readQuery({ query: CurrentUser });
           data.user = login;
           proxy.writeQuery({ query: CurrentUser, data });
-          history.push('/');
+          history.push('/dashboard');
         }
       });
     } catch ({ graphQLErrors }) {

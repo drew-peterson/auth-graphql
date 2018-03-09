@@ -8,8 +8,10 @@ import { ApolloProvider } from 'react-apollo';
 
 import Nav from './components/Nav';
 import Landing from './components/Landing';
+import Dashboard from './components/Dashboard';
 import Login from './containers/Login';
 import Signup from './containers/Signup';
+import RequireLogin from './containers/RequireLogin';
 
 const client = new ApolloClient({
   link: new HttpLink({
@@ -31,6 +33,11 @@ class App extends Component {
             <Route exact path="/" component={Landing} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
+            <Route
+              exact
+              path="/dashboard"
+              component={RequireLogin(Dashboard)}
+            />
           </div>
         </Router>
       </ApolloProvider>
