@@ -11,11 +11,23 @@ class Dashboard extends Component {
     name: ''
   };
 
-  componentWillUpdate({ subToNewName, data: { loading, user } }) {
-    if (!loading && user) {
-      // user._id is an string....
-      subToNewName({
-        userID: user._id
+  componentWillUpdate({ data: { user, subscribeToMore } }) {
+    if (user) {
+      subscribeToMore({
+        document: onNameChange,
+        variables: {
+          userID: user._id
+        },
+        updateQuery: (prev, { subscriptionData }) => {
+          const { data: { onNameChange } } = subscriptionData;
+          if (!onNameChange) {
+            return prev;
+          }
+
+          // will not update local because cache is already updated
+          // just like redux return new state...
+          return { ...prev, user: onNameChange };
+        }
       });
     }
   }
@@ -52,7 +64,10 @@ class Dashboard extends Component {
 
         {user && (
           <h5>
-            welcome back: <Name>{user.name}</Name>
+            welcome back:{' '}
+            <Name>
+              {user.name} - {user.email}
+            </Name>
           </h5>
         )}
 
@@ -82,32 +97,6 @@ const Name = styled.span`
 `;
 
 export default compose(
-  graphql(CurrentUser, {
-    name: 'user',
-    props: props => {
-      const { user } = props;
-      return {
-        ...props,
-        subToNewName: params => {
-          user.subscribeToMore({
-            document: onNameChange,
-            variables: {
-              userID: params.userID
-            },
-            updateQuery: (prev, { subscriptionData }) => {
-              const { data: { onNameChange } } = subscriptionData;
-              if (!onNameChange) {
-                return prev;
-              }
-
-              // will not update local because cache is already updated
-              // just like redux return new state...
-              return { ...prev, user: onNameChange };
-            }
-          });
-        }
-      };
-    }
-  }),
+  graphql(CurrentUser),
   graphql(UpdateName, { name: 'updateName' })
 )(Dashboard);
