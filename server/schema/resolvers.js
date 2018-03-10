@@ -32,6 +32,7 @@ const resolvers = {
       const { _id, email } = req.user;
 
       // update name in DB here....
+      log('warn', 'updateName - NOT SAVING TO DB...');
 
       pubsub.publish(NAME_CHANGED, {
         onNameChange: {
