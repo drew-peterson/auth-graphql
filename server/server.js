@@ -53,8 +53,8 @@ app.use(
 app.use(
   '/graphiql',
   graphiqlExpress({
-    endpointURL: '/graphql',
-    subscriptionsEndpoint: `ws://localhost:5000/subscriptions`
+    endpointURL: '/graphql'
+    // subscriptionsEndpoint: 'ws://localhost:5000/subscriptions'
   })
 );
 

@@ -36,8 +36,7 @@ const resolvers = {
       const res = { _id, name, email };
 
       pubsub.publish(NAME_CHANGED, {
-        onNameChange: res,
-        userID: req.user._id
+        onNameChange: res
       });
 
       return { _id, email, name };
@@ -49,8 +48,10 @@ const resolvers = {
       // how to subscribe to specific things in collection
       subscribe: withFilter(
         () => pubsub.asyncIterator(NAME_CHANGED),
-        (payload, variables) => {
+        (payload, variables, req) => {
           // userID is a string??? so ==
+          // need to figure out how to get req...
+          // console.log('req', req);
           return payload.onNameChange._id == variables.userID;
         }
       )
