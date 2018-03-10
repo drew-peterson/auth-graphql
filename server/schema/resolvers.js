@@ -32,14 +32,12 @@ const resolvers = {
       const { _id, email } = req.user;
 
       // update name in DB here....
-      log('warn', 'updateName - NOT SAVING TO DB...');
+      log('warn', 'updateName - NOT SAVING TO DB...', req.user._id);
+      const res = { _id, name, email };
 
       pubsub.publish(NAME_CHANGED, {
-        onNameChange: {
-          _id,
-          name,
-          email
-        }
+        onNameChange: res,
+        userID: req.user._id
       });
 
       return { _id, email, name };
@@ -47,16 +45,15 @@ const resolvers = {
   },
   Subscription: {
     onNameChange: {
-      subscribe: () => pubsub.asyncIterator(NAME_CHANGED)
+      // subscribe: () => pubsub.asyncIterator(NAME_CHANGED)
       // how to subscribe to specific things in collection
-      // subscribe: withFilter(
-      //   () => pubsub.asyncIterator(NAME_CHANGED),
-      //   (payload, variables) => {
-      //     console.log('payload', payload);
-      //     console.log('variables', variables);
-      //     return true;
-      //   }
-      // )
+      subscribe: withFilter(
+        () => pubsub.asyncIterator(NAME_CHANGED),
+        (payload, variables) => {
+          // userID is a string??? so ==
+          return payload.onNameChange._id == variables.userID;
+        }
+      )
     }
   }
 };

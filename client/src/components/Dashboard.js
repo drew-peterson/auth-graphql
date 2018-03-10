@@ -11,10 +11,13 @@ class Dashboard extends Component {
     name: ''
   };
 
-  componentDidMount() {
-    const { subToNewName } = this.props;
-
-    subToNewName();
+  componentWillUpdate({ subToNewName, data: { loading, user } }) {
+    if (!loading && user) {
+      // user._id is an string....
+      subToNewName({
+        userID: user._id
+      });
+    }
   }
 
   updateName(e) {
@@ -88,6 +91,9 @@ export default compose(
         subToNewName: params => {
           user.subscribeToMore({
             document: onNameChange,
+            variables: {
+              userID: params.userID
+            },
             updateQuery: (prev, { subscriptionData }) => {
               const { data: { onNameChange } } = subscriptionData;
               if (!onNameChange) {

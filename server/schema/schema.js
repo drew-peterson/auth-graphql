@@ -27,7 +27,7 @@ const typeDefs = `
   }
 
   type Subscription {
-    onNameChange: User
+    onNameChange(userID: ID!): User
   }
 `;
 
