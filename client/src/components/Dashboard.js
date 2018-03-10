@@ -1,31 +1,39 @@
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 import CurrentUser from '../graphql/queries/CurrentUser';
-import nameChanged from '../graphql/subscriptions/nameChanged';
+import onNameChange from '../graphql/subscriptions/onNameChange';
 import UpdateName from '../graphql/mutations/UpdateName';
 
 import styled from 'styled-components';
 
 class Dashboard extends Component {
-  // componentWillMount() {
-  //   const { data: { subscribeToMore } } = this.props;
-  //
-  //   subscribeToMore({
-  //     document: nameChanged,
-  //     updateQuery: (previousResult, { subscriptionData, variables }) => {
-  //       console.log('updateQuery', subscriptionData, variables);
-  //       // Perform updates on previousResult with subscriptionData
-  //       // return updatedResult;
-  //     }
-  //   });
-  // }
+  state = {
+    name: ''
+  };
 
-  updateName() {
-    const { updateName } = this.props;
+  componentDidMount() {
+    const { subToNewName } = this.props;
+
+    subToNewName();
+  }
+
+  updateName(e) {
+    e.preventDefault();
+    const { updateName, data: { user } } = this.props;
 
     updateName({
       variables: {
-        name: 'DREW 2'
+        name: this.state.name
+      },
+      // does not need update because the user object is changing
+      // optimistic is faster and doesnt wait for ajax
+      // update could also be used here if not an object
+      optimisticResponse: {
+        __typename: 'Mutation',
+        updateName: {
+          ...user,
+          name: 'TEMP NAME!!!'
+        }
       }
     });
   }
@@ -33,7 +41,7 @@ class Dashboard extends Component {
   render() {
     const { data } = this.props;
     const { user } = data;
-    console.log('data', data);
+    // console.log('this.props', this.props);
 
     return (
       <div>
@@ -45,9 +53,20 @@ class Dashboard extends Component {
           </h5>
         )}
 
-        <button className="btn" onClick={this.updateName.bind(this)}>
-          update name
-        </button>
+        <form
+          onSubmit={this.updateName.bind(this)}
+          style={{ padding: '40px', maxWidth: '300px' }}
+        >
+          <input
+            type="text"
+            value={this.state.name}
+            placeholder="new name..."
+            onChange={e => this.setState({ name: e.target.value })}
+          />
+          <button className="btn" type="submit">
+            update name
+          </button>
+        </form>
       </div>
     );
   }
@@ -60,6 +79,29 @@ const Name = styled.span`
 `;
 
 export default compose(
-  graphql(CurrentUser),
+  graphql(CurrentUser, {
+    name: 'user',
+    props: props => {
+      const { user } = props;
+      return {
+        ...props,
+        subToNewName: params => {
+          user.subscribeToMore({
+            document: onNameChange,
+            updateQuery: (prev, { subscriptionData }) => {
+              const { data: { onNameChange } } = subscriptionData;
+              if (!onNameChange) {
+                return prev;
+              }
+
+              // will not update local because cache is already updated
+              // just like redux return new state...
+              return { ...prev, user: onNameChange };
+            }
+          });
+        }
+      };
+    }
+  }),
   graphql(UpdateName, { name: 'updateName' })
 )(Dashboard);

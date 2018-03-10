@@ -29,7 +29,6 @@ const resolvers = {
       return user;
     },
     updateName: async (obj, { name }, req) => {
-      log('success', 'NEW NAME', name);
       const { _id, email } = req.user;
 
       // update name in DB here....
@@ -42,7 +41,7 @@ const resolvers = {
         }
       });
 
-      return req.user;
+      return { _id, email, name };
     }
   },
   Subscription: {

@@ -36,7 +36,10 @@ class Nav extends Component {
       ];
     }
     return [
-      <a key="1" onClick={this.logout.bind(this)}>
+      <Link key="1" to="/dashboard">
+        dashboard
+      </Link>,
+      <a key="2" onClick={this.logout.bind(this)}>
         logout
       </a>
     ];
