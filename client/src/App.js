@@ -30,7 +30,7 @@ const httpLink = new HttpLink({
 const wsLink = new WebSocketLink({
   // uri: `ws://localhost:5000/`,
   // uri: `ws://localhost:5000/subscriptions`,
-  uri: 'https://auth-graphql.herokuapp.com/subscriptions',
+  uri: 'auth-graphql.herokuapp.com/subscriptions',
   options: {
     reconnect: true
   }
