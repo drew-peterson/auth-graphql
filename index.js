@@ -1,22 +1,25 @@
-// const server = require('./server/server');
-const log = require('node-pretty-log');
-const SubscriptionServer = require('subscriptions-transport-ws')
-  .SubscriptionServer;
-const subscribe = require('graphql').subscribe;
-const execute = require('graphql').execute;
-
+// EXPRESS
 const express = require('express');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
+// GRAPHQL
 const graphqlExpress = require('apollo-server-express').graphqlExpress;
 const graphiqlExpress = require('apollo-server-express').graphiqlExpress;
+// SUBSCRIPTIONS
+const SubscriptionServer = require('subscriptions-transport-ws')
+  .SubscriptionServer;
+const subscribe = require('graphql').subscribe;
+const execute = require('graphql').execute;
+
+// CONFIG
 const models = require('./server/models');
 const passportConfig = require('./server/services/auth');
 const schema = require('./server/schema/schema');
-
 const keys = require('./config/keys');
+const log = require('node-pretty-log');
+// const server = require('./server/server');
 
 const app = express();
 // app.use(bodyParser.json());
@@ -68,21 +71,21 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 const createServer = require('http').createServer;
-createServer(app);
+const server = createServer(app);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT);
-// server.listen(PORT, () => {
-//   new SubscriptionServer(
-//     {
-//       execute,
-//       subscribe,
-//       schema
-//     },
-//     {
-//       server,
-//       path: '/subscriptions'
-//     }
-//   );
-//   log('info', `GraphQL: http://localhost:${PORT}/graphiql`);
-// });
+
+server.listen(PORT, () => {
+  new SubscriptionServer(
+    {
+      execute,
+      subscribe,
+      schema
+    },
+    {
+      server,
+      path: '/subscriptions'
+    }
+  );
+  log('info', `GraphQL: http://localhost:${PORT}/graphiql`);
+});
