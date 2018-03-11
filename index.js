@@ -19,7 +19,6 @@ const passportConfig = require('./server/services/auth');
 const schema = require('./server/schema/schema');
 const keys = require('./config/keys');
 const log = require('node-pretty-log');
-// const server = require('./server/server');
 
 const app = express();
 // app.use(bodyParser.json());
