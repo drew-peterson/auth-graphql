@@ -17,7 +17,7 @@ import Landing from './components/Landing';
 import Dashboard from './components/Dashboard';
 import Login from './containers/Login';
 import Signup from './containers/Signup';
-import requireLogin from './containers/RequireAuth'; // HOC are lowercase because they are functions...
+import requireAuth from './containers/RequireAuth'; // HOC are lowercase because they are functions...
 
 // subscriptions =========================
 // Create an http link:
@@ -69,7 +69,7 @@ class App extends Component {
             <Route
               exact
               path="/dashboard"
-              component={requireLogin(Dashboard)}
+              component={requireAuth(Dashboard)}
               // component={Dashboard}
             />
           </div>
