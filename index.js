@@ -70,6 +70,7 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
 }
+// has to be in 1 file or safair will fail -- dunno why...
 const createServer = require('http').createServer;
 const server = createServer(app);
 
