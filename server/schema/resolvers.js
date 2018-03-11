@@ -1,17 +1,35 @@
 const AuthService = require('../services/auth');
-const PubSub = require('graphql-subscriptions').PubSub;
+const RedisPubSub = require('graphql-redis-subscriptions').RedisPubSub;
 const withFilter = require('graphql-subscriptions').withFilter;
 const log = require('node-pretty-log');
-const pubsub = new PubSub();
+const Redis = require('ioredis');
+// const REDIS_DOMAIN_NAME = '127.0.0.1';
+// const PORT_NUMBER = '6379';
+// const options = {
+//   connection: {
+//     host: REDIS_DOMAIN_NAME,
+//     port: PORT_NUMBER,
+//     retry_strategy: options => {
+//       // reconnect after upto 3000 milis
+//       return Math.max(options.attempt * 100, 3000);
+//     }
+//   }
+// };
+const pubsub = new RedisPubSub({
+  publisher: new Redis(),
+  subscriber: new Redis()
+  // publisher: new Redis(options),
+  // subscriber: new Redis(options)
+});
 
 const NAME_CHANGED = 'onNameChange';
 // use helper functions as much as possible
 const resolvers = {
   Query: {
-    // user: (obj, args, { user }) => user // auth check if user is logged in
     user: (obj, args, req) => {
+      // auth check if user is logged in
       return req.user;
-    } // auth check if user is logged in
+    }
   },
   Mutation: {
     signup: async (obj, { email, password }, req) => {
