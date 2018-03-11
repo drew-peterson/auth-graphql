@@ -17,10 +17,10 @@ const options = {
   }
 };
 const pubsub = new RedisPubSub({
-  // publisher: new Redis(),
-  // subscriber: new Redis()
-  publisher: new Redis(options),
-  subscriber: new Redis(options)
+  publisher: new Redis(),
+  subscriber: new Redis()
+  // publisher: new Redis(options),
+  // subscriber: new Redis(options)
 });
 
 const NAME_CHANGED = 'onNameChange';
