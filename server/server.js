@@ -59,14 +59,14 @@ app.use(
 );
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('client/build'));
-  const path = require('path');
+  // app.use(express.static('client/build')); // check for specific file request is looking for -- index.html will ask for main.js in client/build/static/js...
+  // const path = require('path');
   // app.get('*', (req, res) => {
   //   res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   // });
-  app.get('*', function(req, res) {
-    const index = path.join(__dirname, 'client', 'build', 'index.html');
-    res.sendFile(index);
+  app.use(express.static(path.join(__dirname, 'build')));
+  app.get('/*', function(req, res) {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
   });
 }
 

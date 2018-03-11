@@ -56,14 +56,6 @@ const client = new ApolloClient({
   cache
 });
 
-const NoMatch = () => {
-  return (
-    <div>
-      <h2>Oops this route doesnt exist...</h2>
-    </div>
-  );
-};
-
 class App extends Component {
   render() {
     return (
@@ -84,5 +76,13 @@ class App extends Component {
     );
   }
 }
+
+const NoMatch = ({ location }) => (
+  <div>
+    <h3>
+      No match for <code>{location.pathname}</code>
+    </h3>
+  </div>
+);
 
 export default App;
