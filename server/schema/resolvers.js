@@ -2,16 +2,14 @@ const AuthService = require('../services/auth');
 const RedisPubSub = require('graphql-redis-subscriptions').RedisPubSub;
 const withFilter = require('graphql-subscriptions').withFilter;
 const log = require('node-pretty-log');
+const keys = require('../../config/keys');
 
 const Redis = require('ioredis');
 
 const options = {
-  // host: 'redis-16841.c9.us-east-1-4.ec2.cloud.redislabs.com',
-  // port: 16841,
-  // password: 'Tle4JpIrmHpHg4q5Hjkb3Hg6khylMg1u',
-  host: process.env.REDISCLOUD_HOST,
-  port: process.env.REDISCLOUD_PORT,
-  password: process.env.REDISCLOUD_PASSWORD,
+  host: keys.REDISCLOUD_HOST,
+  port: keys.REDISCLOUD_PORT,
+  password: keys.REDISCLOUD_PASSWORD,
   retry_strategy: options => {
     // reconnect after upto 3000 milis
     log('warn', 'REDIS retry_strategy');
