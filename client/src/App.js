@@ -56,6 +56,14 @@ const client = new ApolloClient({
   cache
 });
 
+const NoMatch = () => {
+  return (
+    <div>
+      <h2>Oops this route doesnt exist...</h2>
+    </div>
+  );
+};
+
 class App extends Component {
   render() {
     return (
@@ -68,6 +76,7 @@ class App extends Component {
               <Route path="/login" component={Login} />
               <Route path="/signup" component={Signup} />
               <Route path="/dashboard" component={requireAuth(Dashboard)} />
+              <Route component={NoMatch} />
             </Switch>
           </div>
         </Router>
