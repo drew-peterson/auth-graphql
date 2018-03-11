@@ -5,13 +5,13 @@ const log = require('node-pretty-log');
 
 const Redis = require('ioredis');
 
-const REDIS_URL =
-  'redis://rediscloud:Tle4JpIrmHpHg4q5Hjkb3Hg6khylMg1u@redis-16841.c9.us-east-1-4.ec2.cloud.redislabs.com:16841';
-
 const options = {
-  host: 'redis-16841.c9.us-east-1-4.ec2.cloud.redislabs.com',
-  port: 16841,
-  password: 'Tle4JpIrmHpHg4q5Hjkb3Hg6khylMg1u',
+  // host: 'redis-16841.c9.us-east-1-4.ec2.cloud.redislabs.com',
+  // port: 16841,
+  // password: 'Tle4JpIrmHpHg4q5Hjkb3Hg6khylMg1u',
+  host: process.env.REDISCLOUD_HOST,
+  port: process.env.REDISCLOUD_PORT,
+  password: process.env.REDISCLOUD_PASSWORD,
   retry_strategy: options => {
     // reconnect after upto 3000 milis
     log('warn', 'REDIS retry_strategy');
@@ -20,8 +20,6 @@ const options = {
 };
 
 const pubsub = new RedisPubSub({
-  // publisher: new Redis(REDIS_URL),
-  // subscriber: new Redis(REDIS_URL)
   publisher: new Redis(options),
   subscriber: new Redis(options)
 });
