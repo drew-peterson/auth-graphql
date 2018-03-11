@@ -61,10 +61,12 @@ app.use(
 if (process.env.NODE_ENV === 'production') {
   const path = require('path');
   app.use(express.static('client/build'));
-  app.get('*', (req, res) => {
+  app.get('/*', (req, res) => {
+    log('warn', 'UNKNOWN PATH', req.pathname);
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
 }
 
-// module.exports = createServer(app);
-module.exports = app;
+module.exports = createServer(app);
+
+// try running build locally for testing..;
