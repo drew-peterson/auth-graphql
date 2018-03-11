@@ -4,6 +4,7 @@ const SubscriptionServer = require('subscriptions-transport-ws')
   .SubscriptionServer;
 const subscribe = require('graphql').subscribe;
 const execute = require('graphql').execute;
+const express = require('express');
 
 const schema = require('./server/schema/schema');
 
