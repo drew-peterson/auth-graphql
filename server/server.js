@@ -59,12 +59,11 @@ app.use(
 );
 
 if (process.env.NODE_ENV === 'production') {
-  // Express will serve up production assesset (main.js, main.css) files
-  app.use(express.static('client/build')); // check for specific file request is looking for -- index.html will ask for main.js in client/build/static/js...
-  // Express will serve up index.html if it doesn not reconize the route
-  // if it does not find file inside client/build then just return index.html
+  console.log('PRODUCTIONS SERVER.....');
+  app.use(express.static('client/build'));
   const path = require('path');
   app.get('*', (req, res) => {
+    console.log('APP *');
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
 }

@@ -64,14 +64,9 @@ class App extends Component {
           <div>
             <Nav />
             <Route exact path="/" component={Landing} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/signup" component={Signup} />
-            <Route
-              exact
-              path="/dashboard"
-              component={requireAuth(Dashboard)}
-              // component={Dashboard}
-            />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            <Route path="/dashboard" component={requireAuth(Dashboard)} />
           </div>
         </Router>
       </ApolloProvider>
