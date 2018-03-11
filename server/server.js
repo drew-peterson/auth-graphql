@@ -10,8 +10,12 @@ const passportConfig = require('./services/auth');
 const schema = require('./schema/schema');
 const log = require('node-pretty-log');
 
+// subscriptions
+// const createServer = require('http').createServer;
+
 // Create a new Express application
 const app = express();
+app.use(bodyParser.json());
 
 const MONGO_URI =
   'mongodb://drew.peterson:peterson@ds157818.mlab.com:57818/auth-graphql';
@@ -38,28 +42,30 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // require in ALL EXPRESS ROUTES....
-require('./routes/test')(app);
+// require('./routes/test')(app);
 
-// Instruct Express to pass on any request made to the '/graphql' route
-// to the GraphQL instance.
-app.use(
-  '/graphql',
-  bodyParser.json(),
-  // express req object needs to be manually add into graphQl with apollo-express
-  // then in resolvers / mutations can access req...
-  graphqlExpress(req => ({ schema, context: req }))
-);
-app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
+// express req object needs to be manually add into graphQl with apollo-express
+// then in resolvers / mutations can access req...
+// app.use(
+//   '/graphql',
+//   bodyParser.json(),
+//   graphqlExpress(req => ({ schema, context: req }))
+// );
+// app.use(
+//   '/graphiql',
+//   graphiqlExpress({
+//     endpointURL: '/graphql'
+//     // subscriptionsEndpoint: 'ws://localhost:5000/subscriptions'
+//   })
+// );
 
 if (process.env.NODE_ENV === 'production') {
-  // Express will serve up production assesset (main.js, main.css) files
-  app.use(express.static('client/build')); // check for specific file request is looking for -- index.html will ask for main.js in client/build/static/js...
-  // Express will serve up index.html if it doesn not reconize the route
-  // if it does not find file inside client/build then just return index.html
+  app.use(express.static('client/build'));
   const path = require('path');
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
 }
 
+// module.exports = createServer(app);
 module.exports = app;

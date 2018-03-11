@@ -1,0 +1,5 @@
+module.exports = {
+  REDISCLOUD_HOST: process.env.REDISCLOUD_HOST,
+  REDISCLOUD_PORT: process.env.REDISCLOUD_PORT,
+  REDISCLOUD_PASSWORD: process.env.REDISCLOUD_PASSWORD
+};

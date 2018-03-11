@@ -1,12 +1,11 @@
 import gql from 'graphql-tag';
 
 export default gql`
-  mutation {
-    logout {
+  mutation UpdateName($name: String!) {
+    updateName(name: $name) {
       _id
-      __typename
-      email
       name
+      email
     }
   }
 `;
