@@ -11,7 +11,7 @@ const schema = require('./schema/schema');
 const log = require('node-pretty-log');
 
 // subscriptions
-const createServer = require('http').createServer;
+// const createServer = require('http').createServer;
 
 // Create a new Express application
 const app = express();
@@ -42,22 +42,22 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // require in ALL EXPRESS ROUTES....
-require('./routes/test')(app);
+// require('./routes/test')(app);
 
 // express req object needs to be manually add into graphQl with apollo-express
 // then in resolvers / mutations can access req...
-app.use(
-  '/graphql',
-  bodyParser.json(),
-  graphqlExpress(req => ({ schema, context: req }))
-);
-app.use(
-  '/graphiql',
-  graphiqlExpress({
-    endpointURL: '/graphql'
-    // subscriptionsEndpoint: 'ws://localhost:5000/subscriptions'
-  })
-);
+// app.use(
+//   '/graphql',
+//   bodyParser.json(),
+//   graphqlExpress(req => ({ schema, context: req }))
+// );
+// app.use(
+//   '/graphiql',
+//   graphiqlExpress({
+//     endpointURL: '/graphql'
+//     // subscriptionsEndpoint: 'ws://localhost:5000/subscriptions'
+//   })
+// );
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
