@@ -51,17 +51,18 @@ app.use(
   bodyParser.json(),
   graphqlExpress(req => ({ schema, context: req }))
 );
-app.use(
-  '/graphiql',
-  graphiqlExpress({
-    endpointURL: '/graphql'
-    // subscriptionsEndpoint: 'ws://localhost:5000/subscriptions'
-  })
-);
+
+if (process.env.NODE_ENV !== 'production') {
+  app.use(
+    '/graphiql',
+    graphiqlExpress({
+      endpointURL: '/graphql'
+    })
+  );
+}
 
 // ROUTES - API
 require('./server/routes/test')(app);
-
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
   const path = require('path');
